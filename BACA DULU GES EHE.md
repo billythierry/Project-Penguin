@@ -1,3 +1,5 @@
+Unity Editor Ver 2022.3.50f1
+
 PROGRESS GAME : 
 - Masih sama kek kemarin
 - Rintangan balok es bersifat random, tapi cuma posisinya aja, buat jarak antara balok atas dan bawah masih sama
