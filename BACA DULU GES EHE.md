@@ -9,9 +9,11 @@ PROGRESS GAME :
 - Ada perhitungan skor (ini masih dipake ga sih?)
 - Belum ada Sound Fx & Music
 - Belum ada gambar background
+- Makin lama gerakan balok makin cepet
 
 SCRIPT (.cs) :
 - Script tentang player : PenguinScript
 - Script tentang balok es : IceSpawnerScript, IceMidScript, RintanganMoveScript
 - Script tentang Menu : PauseMenu, MainMenuScript
 - Script tambahan kayak skor,logic : LogicScript
+- Script tentang frame rate : FrameRateScript
