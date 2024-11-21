@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 748247016187965359}
   - component: {fileID: 1877604993660340463}
   m_Layer: 0
-  m_Name: Rintangan
+  m_Name: tes_obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
