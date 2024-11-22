@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 3139017668835740026}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 0.35, y: 9.04, z: 0}
-  m_LocalScale: {x: 0.6616, y: 1, z: 1}
+  m_LocalPosition: {x: 0.35, y: 11.04, z: 0}
+  m_LocalScale: {x: 0.6616, y: 1.342405, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 748247016187965359}
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 748247016187965359}
   - component: {fileID: 1877604993660340463}
   m_Layer: 0
-  m_Name: tes_obstacle
+  m_Name: ice2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,8 +206,8 @@ Transform:
   m_GameObject: {fileID: 6466018172746837841}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 0.35, y: -7.84, z: 0}
-  m_LocalScale: {x: 0.6616, y: -1, z: 1}
+  m_LocalPosition: {x: 0.35, y: -9.82, z: 0}
+  m_LocalScale: {x: 0.6616, y: -1.342405, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 748247016187965359}

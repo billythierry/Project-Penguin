@@ -658,10 +658,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11195c0a002632f4b93807ecf5a4b939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ice: {fileID: 3475034012322163841, guid: 1f6ac18087d15224185b9c4366934f9e, type: 3}
+  iceVariants:
+  - {fileID: 3475034012322163841, guid: 507916ed212e53045b1324bdbaeeb5aa, type: 3}
+  - {fileID: 3475034012322163841, guid: 1f6ac18087d15224185b9c4366934f9e, type: 3}
+  - {fileID: 3475034012322163841, guid: 734ae304e59aa4042b76730cbb1ca8bf, type: 3}
+  - {fileID: 3475034012322163841, guid: f5103b4944e4483408281c199ab6cf21, type: 3}
+  - {fileID: 3475034012322163841, guid: 698beabe1aa1eae4bb8824b3040fbd96, type: 3}
+  heightOffsets: []
   spawnRateMin: 1
   spawnRateMax: 3
-  heightOffset: 3
+  defaultHeightOffset: 4
+  minHeight: -4
+  maxHeight: 4
+  maxHeightChange: 5
   timeScaleIncreaseAmount: 0.0002
   timeScaleIncreaseInterval: 0.01
   maxTimeScale: 2.5
@@ -1385,8 +1394,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.13999985, y: 1.14}
-  m_Size: {x: 1.58, y: 2.15}
+  m_Offset: {x: -0.14, y: 1.14}
+  m_Size: {x: 1.09, y: 2.14}
   m_Direction: 0
 --- !u!1 &1315638723
 GameObject:
