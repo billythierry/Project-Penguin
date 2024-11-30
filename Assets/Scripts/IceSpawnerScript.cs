@@ -3,6 +3,7 @@ using UnityEngine;
 public class IceSpawnerScript : MonoBehaviour
 {
     public GameObject[] iceVariants;
+    public GameObject[] collectibleItems;
     public float[] heightOffsets;
     public float spawnRateMin = 1f;
     public float spawnRateMax = 3f;
@@ -11,6 +12,9 @@ public class IceSpawnerScript : MonoBehaviour
     public float minHeight = -5f;
     public float maxHeight = 5f;
     public float maxHeightChange = 2f;
+
+    public float collectibleSpawnChance = 0.5f;
+    public float collectibleOffsetX = 1.5f;
 
     private float timer = 0;
     private float spawnRate;
@@ -79,5 +83,30 @@ public class IceSpawnerScript : MonoBehaviour
         rintanganScript.SetSpeedMultiplier(currentSpeedMultiplier);
 
         lastSpawnHeight = spawnHeight;
+
+        // debug spawn balok es
+        Debug.Log($"Spawned Ice at height: {spawnHeight}, using prefab: {selectedIce.name}");
+
+        if (Random.value < collectibleSpawnChance)
+        {
+            SpawnCollectibleNearIce(newIce, spawnHeight);
+        }
+    }
+
+    void SpawnCollectibleNearIce(GameObject ice, float iceHeight)
+    {
+        int randomIndex = Random.Range(0, collectibleItems.Length);
+        GameObject selectedCollectible = collectibleItems[randomIndex];
+
+        Vector3 collectiblePosition = new Vector3(
+            ice.transform.position.x + collectibleOffsetX,
+            iceHeight,
+            ice.transform.position.z
+        );
+
+        Instantiate(selectedCollectible, collectiblePosition, Quaternion.identity);
+
+        // debug item
+        Debug.Log($"Spawned Collectible at position: {collectiblePosition}");
     }
 }

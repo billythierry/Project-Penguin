@@ -7,7 +7,10 @@ using UnityEngine.SceneManagement;
 public class LogicScript : MonoBehaviour
 {
     public int playerScore;
+    public int ecoScore;
+    //public int gasScore;
     public Text scoreText;
+    public Text ecoText;
     public GameObject gameOverScreen; 
 
     [ContextMenu("Tambah Score")]
@@ -15,6 +18,12 @@ public class LogicScript : MonoBehaviour
     {
         playerScore += scoreToAdd;
         scoreText.text = playerScore.ToString();
+    }
+
+    public void addEcoScore(int ecoScoreToAdd)
+    {
+        ecoScore += ecoScoreToAdd;
+        ecoText.text = ecoScore.ToString();
     }
 
     public void restartGame()

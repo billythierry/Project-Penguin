@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IceMidScript : MonoBehaviour
+public class CollectibleItemScript : MonoBehaviour
 {
     public LogicScript logic;
 
@@ -22,8 +22,8 @@ public class IceMidScript : MonoBehaviour
     {
         if(collision.gameObject.layer == 3)
         {
-            logic.addScore(1);
-            
+            logic.addEcoScore(1);
+            Destroy(gameObject);
         }
     }
 }
