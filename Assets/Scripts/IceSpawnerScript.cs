@@ -1,32 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class IceSpawnerScript : MonoBehaviour
 {
-    public GameObject[] iceVariants; // Array untuk prefab rintangan
-    public float[] heightOffsets; // Array untuk heightOffset masing-masing prefab
-    public float spawnRateMin = 1f; // Nilai minimum spawn rate
-    public float spawnRateMax = 3f; // Nilai maksimum spawn rate
+    public GameObject[] iceVariants;
+    public float[] heightOffsets;
+    public float spawnRateMin = 1f;
+    public float spawnRateMax = 3f;
+
+    public float defaultHeightOffset = 10f;
+    public float minHeight = -5f;
+    public float maxHeight = 5f;
+    public float maxHeightChange = 2f;
+
     private float timer = 0;
     private float spawnRate;
+    private float lastSpawnHeight = 0f;
+    private float currentSpeedMultiplier = 1f;
 
-    // Nilai default height offset jika tidak ada di array
-    public float defaultHeightOffset = 10f;
+    [Header("Speed and Interval")]
+    [SerializeField] private float speedIncreaseAmount = 0.02f; // Kecepatan bertambah per spawn
+    [SerializeField] private float speedIncreaseInterval = 0.0002f; // Interval waktu untuk penambahan kecepatan
+    [SerializeField] private float maxSpeedMultiplier = 3f; // Kecepatan maksimum
 
-    public float minHeight = -5f; // Ketinggian minimal
-    public float maxHeight = 5f;  // Ketinggian maksimal
-
-    public float maxHeightChange = 2f; // Selisih maksimal perubahan ketinggian antar rintangan
-
-    private float lastSpawnHeight = 0f; // Posisi ketinggian terakhir rintangan yang dispawn
-
-    private float rintanganTimeScale = 1f; // Time scale untuk rintangan
-    public float timeScaleIncreaseAmount = 0.05f; // Penambahan time scale per interval waktu
-    public float timeScaleIncreaseInterval = 20f; // Interval waktu dalam detik
-    public float maxTimeScale = 1.5f; // Batas maksimal time scale
-
-    private float timeElapsed = 0f; // Waktu yang telah berlalu sejak perubahan terakhir
+    private float timeSinceLastIncrease = 0f; // Waktu sejak penambahan terakhir
 
     void Start()
     {
@@ -35,70 +31,53 @@ public class IceSpawnerScript : MonoBehaviour
 
     void Update()
     {
-        // Timer untuk spawn rintangan
-        if (timer < spawnRate)
-        {
-            timer += Time.deltaTime;
-        }
-        else
+        timer += Time.deltaTime;
+
+        timeSinceLastIncrease += Time.deltaTime; // Menambah waktu sejak penambahan kecepatan terakhir
+
+        if (timer > spawnRate)
         {
             spawnIce();
             timer = 0;
-            spawnRate = Random.Range(spawnRateMin, spawnRateMax) / rintanganTimeScale; // Spawn rate dipengaruhi oleh time scale
-        }
+            spawnRate = Random.Range(spawnRateMin, spawnRateMax);
 
-        // Tambahkan waktu dan cek apakah sudah mencapai interval untuk menambah kecepatan
-        timeElapsed += Time.deltaTime;
-        if (timeElapsed >= timeScaleIncreaseInterval)
-        {
-            IncreaseTimeScale();
-            timeElapsed = 0f; // Reset timer
+            // Jika sudah mencapai interval untuk menambah kecepatan
+            if (timeSinceLastIncrease >= speedIncreaseInterval)
+            {
+                currentSpeedMultiplier += speedIncreaseAmount; // Menambah multiplier kecepatan
+                currentSpeedMultiplier = Mathf.Min(currentSpeedMultiplier, maxSpeedMultiplier); // Batasi kecepatan agar tidak lebih dari maxSpeedMultiplier
+                RintanganMoveScript.UpdateAllRintanganSpeed(currentSpeedMultiplier);
+                timeSinceLastIncrease = 0f; // Reset waktu
+            }
         }
     }
 
     void spawnIce()
     {
-        // Pilih prefab secara acak
         int randomIndex = Random.Range(0, iceVariants.Length);
         GameObject selectedIce = iceVariants[randomIndex];
 
-        // Tentukan heightOffset untuk prefab yang dipilih
-        float selectedHeightOffset = (randomIndex < heightOffsets.Length) ? heightOffsets[randomIndex] : defaultHeightOffset;
+        float selectedHeightOffset = (randomIndex < heightOffsets.Length) ? 
+            heightOffsets[randomIndex] : defaultHeightOffset;
 
-        // Hitung batas ketinggian untuk spawn (dengan memperhatikan perbedaan maksimal)
         float lowestPoint = Mathf.Max(transform.position.y - selectedHeightOffset, minHeight);
         float highestPoint = Mathf.Min(transform.position.y + selectedHeightOffset, maxHeight);
 
-        // Batasi ketinggian berdasarkan ketinggian terakhir
         float adjustedMin = Mathf.Max(lastSpawnHeight - maxHeightChange, lowestPoint);
         float adjustedMax = Mathf.Min(lastSpawnHeight + maxHeightChange, highestPoint);
 
-        // Pilih ketinggian secara acak dalam batasan yang diperbarui
         float spawnHeight = Random.Range(adjustedMin, adjustedMax);
 
-        // Spawn rintangan
         GameObject newIce = Instantiate(
             selectedIce,
             new Vector3(transform.position.x, spawnHeight, 0),
             transform.rotation
         );
 
-        // Update ketinggian terakhir
+        // Set speed multiplier untuk rintangan baru
+        RintanganMoveScript rintanganScript = newIce.GetComponent<RintanganMoveScript>();
+        rintanganScript.SetSpeedMultiplier(currentSpeedMultiplier);
+
         lastSpawnHeight = spawnHeight;
-
-        // Set time scale lokal untuk rintangan yang baru
-        newIce.GetComponent<RintanganMoveScript>().SetTimeScale(rintanganTimeScale);
-    }
-
-    void IncreaseTimeScale()
-    {
-        // Tambahkan kecepatan waktu setiap interval waktu
-        rintanganTimeScale += timeScaleIncreaseAmount;
-        rintanganTimeScale = Mathf.Min(rintanganTimeScale, maxTimeScale); // Pastikan tidak melebihi maxTimeScale
-
-        Debug.Log($"Time scale rintangan meningkat menjadi {rintanganTimeScale}x setelah {timeScaleIncreaseInterval} detik");
-
-        // Update time scale semua rintangan aktif
-        RintanganMoveScript.UpdateTimeScaleForAll(rintanganTimeScale);
     }
 }

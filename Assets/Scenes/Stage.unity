@@ -927,9 +927,9 @@ MonoBehaviour:
   minHeight: -4
   maxHeight: 4
   maxHeightChange: 5
-  timeScaleIncreaseAmount: 0.0002
-  timeScaleIncreaseInterval: 0.01
-  maxTimeScale: 2.5
+  speedIncreaseAmount: 0.02
+  speedIncreaseInterval: 0.0005
+  maxSpeedMultiplier: 3
 --- !u!4 &736729864
 Transform:
   m_ObjectHideFlags: 0
