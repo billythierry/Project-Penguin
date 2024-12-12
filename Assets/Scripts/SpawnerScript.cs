@@ -4,6 +4,7 @@ public class IceSpawnerScript : MonoBehaviour
 {
     public GameObject[] iceVariants;
     public GameObject[] collectibleItems;
+    public LogicScript logic;
     public float[] heightOffsets;
     public float spawnRateMin = 1f;
     public float spawnRateMax = 3f;
@@ -25,19 +26,34 @@ public class IceSpawnerScript : MonoBehaviour
     [SerializeField] private float speedIncreaseAmount = 0.02f; // Kecepatan bertambah per spawn
     [SerializeField] private float speedIncreaseInterval = 0.0002f; // Interval waktu untuk penambahan kecepatan
     [SerializeField] private float maxSpeedMultiplier = 3f; // Kecepatan maksimum
+    [SerializeField] private float thresholdSpeedMultiplier = 1.6f; // Threshold untuk mengubah spawn rate
+    [SerializeField] private float reducedMaxSpawnRate = 1.5f; // maxSpawnRate baru setelah threshold tercapai
 
     private float timeSinceLastIncrease = 0f; // Waktu sejak penambahan terakhir
 
     void Start()
     {
         spawnRate = Random.Range(spawnRateMin, spawnRateMax);
+        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
     void Update()
     {
+        if (logic.getTotalPlayerScoreAdded() >= 50)
+        {
+            return; // Jangan spawn objek jika skor sudah 50 atau lebih
+        }
+
         timer += Time.deltaTime;
 
         timeSinceLastIncrease += Time.deltaTime; // Menambah waktu sejak penambahan kecepatan terakhir
+
+        // Kurangi maxSpawnRate ketika threshold speed multiplier tercapai
+        if (currentSpeedMultiplier >= thresholdSpeedMultiplier && spawnRateMax > reducedMaxSpawnRate)
+        {
+            spawnRateMax = reducedMaxSpawnRate;
+            Debug.Log($"[IceSpawnerScript] maxSpawnRate dikurangi menjadi: {spawnRateMax} karena speed multiplier mencapai {thresholdSpeedMultiplier}");
+        }
 
         if (timer > spawnRate)
         {
@@ -84,9 +100,6 @@ public class IceSpawnerScript : MonoBehaviour
 
         lastSpawnHeight = spawnHeight;
 
-        // debug spawn balok es
-        Debug.Log($"Spawned Ice at height: {spawnHeight}, using prefab: {selectedIce.name}");
-
         if (Random.value < collectibleSpawnChance)
         {
             SpawnCollectibleNearIce(newIce, spawnHeight);
@@ -98,15 +111,15 @@ public class IceSpawnerScript : MonoBehaviour
         int randomIndex = Random.Range(0, collectibleItems.Length);
         GameObject selectedCollectible = collectibleItems[randomIndex];
 
+        float randomYOffset = Random.Range(-1.5f, 1.5f);
+        float collectibleYPosition = iceHeight + randomYOffset;
+
         Vector3 collectiblePosition = new Vector3(
-            ice.transform.position.x + collectibleOffsetX,
-            iceHeight,
+            ice.transform.position.x,
+            collectibleYPosition,
             ice.transform.position.z
         );
 
         Instantiate(selectedCollectible, collectiblePosition, Quaternion.identity);
-
-        // debug item
-        Debug.Log($"Spawned Collectible at position: {collectiblePosition}");
     }
 }

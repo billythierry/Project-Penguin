@@ -12,11 +12,10 @@ GameObject:
   - component: {fileID: 2727835151505643307}
   - component: {fileID: 1928708101504651309}
   - component: {fileID: 5548969412213082307}
-  - component: {fileID: -2353416579071594556}
   - component: {fileID: -7789622937176795536}
   m_Layer: 0
   m_Name: Gas
-  m_TagString: Untagged
+  m_TagString: Gas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,8 +30,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.8334897, y: -2.1071935, z: -0.013571907}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.19, y: 0.19, z: 0.19}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -146,21 +145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseMoveSpeed: 5
-  deadZone: -12
+  deadZone: -10
   maxMoveSpeed: 10
---- !u!114 &-2353416579071594556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660560111928746206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4c397ec5185c6e49826796336a3168c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logic: {fileID: 0}
 --- !u!114 &-7789622937176795536
 MonoBehaviour:
   m_ObjectHideFlags: 0

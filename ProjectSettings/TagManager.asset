@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Logic
   - Audio
+  - Eco
+  - Gas
+  - Ending
   layers:
   - Default
   - TransparentFX
@@ -42,4 +45,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3792572029
+    locked: 0
+  - name: Foreground
+    uniqueID: 1286672469
     locked: 0
